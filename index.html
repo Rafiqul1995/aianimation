@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI एनिमेशन जनरेटर</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .input-group {
+            margin: 25px 0;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            background: #f0f8ff;
+            color: #333;
+        }
+        
+        button {
+            background: #ff2d55;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        button:hover {
+            background: #ff1a40;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+        
+        #animationCanvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            background: #000;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .examples {
+            margin-top: 30px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .examples h3 {
+            border-bottom: 2px solid #ff2d55;
+            padding-bottom: 8px;
+        }
+        
+        .example-item {
+            background: rgba(255,255,255,0.15);
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .example-item:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI एनिमेशन जनरेटर</h1>
+        <p>किसी भी टेक्स्ट को एनिमेटेड वीडियो में बदलें! बस नीचे विवरण लिखें और "जनरेट करें" बटन दबाएँ।</p>
+        
+        <div class="input-group">
+            <label for="prompt">विवरण दर्ज करें:</label>
+            <textarea id="prompt" placeholder="जैसे: एक अंतरिक्ष यान जो तारों के बीच उड़ रहा है, नीचे ग्रह दिख रहे हैं..."></textarea>
+        </div>
+        
+        <button id="generateBtn">जनरेट करें</button>
+        
+        <div id="canvasContainer"></div>
+        
+        <div class="controls">
+            <button id="downloadBtn" disabled>वीडियो डाउनलोड करें</button>
+            <button id="resetBtn">रीसेट करें</button>
+        </div>
+        
+        <div class="examples">
+            <h3>उदाहरण प्रॉम्प्ट्स:</h3>
+            <div class="example-item" onclick="loadExample('दो रोबोट चाँद पर नृत्य करते हुए')">दो रोबोट चाँद पर नृत्य करते हुए</div>
+            <div class="example-item" onclick="loadExample('एक जंगल में जादुई फूल जो रंग बदलते हैं')">एक जंगल में जादुई फूल जो रंग बदलते हैं</div>
+            <div class="example-item" onclick="loadExample('समुद्र के अंदर डॉल्फ़िन का झुंड तैरता हुआ')">समुद्र के अंदर डॉल्फ़िन का झुंड तैरता हुआ</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
